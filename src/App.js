@@ -18,15 +18,11 @@ class App extends Component {
       .then((users) =>
         this.setState(() => {
           return { monsters: users };
-        },
-          () => {
-            console.log(this.state);
-          }
+        }
         ));
   }
 
   onSearchChange = (event) => {
-    console.log(event.target.value);
     const searchField = event.target.value.toLowerCase();
 
     this.setState(() => {
@@ -35,7 +31,6 @@ class App extends Component {
   };
 
   render() {
-    console.log('render');
     const filteredMonsters = this.state.monsters.filter((monster) => {
       return monster.name.toLowerCase().includes(this.state.searchField);
     });
