@@ -1,55 +1,42 @@
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      monsters: [],
-      searchField: ""
+      firstName: 'Ryan',
+      lastName: 'Wilson',
+      age: 46,
+      vocation: 'Software Engineer',
+      occupation: 'Truck Driver',
+      buttonLabel: 'Goal',
     };
-    console.log('constructor');
   }
 
-  componentDidMount() {
-    console.log('componentDidMount');
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((users) =>
-        this.setState(() => {
-          return { monsters: users };
-        }
-        ));
-  }
-
-  onSearchChange = (event) => {
-    const searchField = event.target.value.toLowerCase();
-
-    this.setState(() => {
-      return { searchField };
-    });
+  handleClick = () => {
+    if (this.state.buttonLabel === 'Goal') {
+      this.setState({
+        occupation: this.state.vocation,
+        buttonLabel: 'Go Back',
+      });
+    } else {
+      this.setState({
+        occupation: 'Truck Driver',
+        buttonLabel: 'Goal',
+      });
+    }
   };
 
   render() {
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLowerCase().includes(this.state.searchField);
-    });
-
+    const { firstName, lastName, age, occupation, buttonLabel } = this.state;
+    const Name = `${firstName} ${lastName}`;
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="search monsters"
-          onChange={this.onSearchChange}
-        />
-        {filteredMonsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
+        {buttonLabel === 'Goal' && <h1>Hi my name is {Name}</h1>}
+        <h2>I am {age} years old</h2>
+        <h3>I am a {occupation}</h3>
+        {buttonLabel === 'Goal' && <h4>at the moment</h4>}
+        <button onClick={this.handleClick}>{buttonLabel}</button>
       </div>
     );
   }
